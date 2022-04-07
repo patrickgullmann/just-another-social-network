@@ -70,24 +70,8 @@ export class Login extends Component {
                     <button onClick={this.handleSubmit}>Login!</button>
                 </form>
                 <Link to="/">Click here to Register!</Link>
+                <Link to="/reset">Did you forget your Password?</Link>
             </section>
         );
     }
 }
-
-//need constructor bc we have a class!
-//need super(); that we have access to all methods etc from Component
-
-/* ------------------------------------- long code and nice destructure ----- */
-//  handleChange(e) {
-//         // e.target.value destructured and renamed
-//         //let { value: val } = e.target;
-
-//         //just dynamic adding of a property to an obj
-//         this.setState(
-//             {
-//                 [e.target.name]: e.target.value,
-//             },
-//             () => console.log("done!", this.state)
-//         );
-//     }

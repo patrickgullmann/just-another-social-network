@@ -9,6 +9,9 @@ const secrets =
 const { hash, compare } = require("./auth");
 const db = require("./db");
 
+const cryptoRandomString = require("crypto-random-string");
+const ses = require("./ses");
+
 app.use(compression());
 
 app.use(express.json());
@@ -28,13 +31,18 @@ app.use((req, res, next) => {
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
+app.get("/user/id.json", function (req, res) {
+    res.json({
+        userId: req.session.userId,
+    });
+});
+
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/");
 });
 
 app.post("/register.json", function (req, res) {
-    console.log(req.body);
     const { first, last, email, password } = req.body;
 
     hash(password)
@@ -82,10 +90,43 @@ app.post("/login.json", (req, res) => {
         });
 });
 
-app.get("/user/id.json", function (req, res) {
-    res.json({
-        userId: req.session.userId,
-    });
+app.post("/password/reset/start.json", function (req, res) {
+    const { email } = req.body;
+
+    //just reuse query with other purpose -> find if user exists
+    db.getUserPasswordByEmail(email)
+        .then((result) => {
+            if (result.rows.length == 0) {
+                res.json({ success: false });
+            } else {
+                //insert resetCode for user
+                const secretCode = cryptoRandomString({
+                    length: 6,
+                });
+                db.insertSecretCode(email, secretCode)
+                    .then(() => {
+                        //send code to user (email)
+                        //we would put the email!!! but AWS does only allow one in free version
+                        const recipient = "heathered.justice@spicedling.email";
+                        ses.sendEmail(recipient, secretCode, "Reset Code")
+                            .then(() => {
+                                res.json({ success: true });
+                            })
+                            .catch((err) => {
+                                console.log("err by sending email", err);
+                                res.json({ success: false });
+                            });
+                    })
+                    .catch((err) => {
+                        console.log("err by inserting code in db", err);
+                        res.json({ success: false });
+                    });
+            }
+        })
+        .catch((err) => {
+            console.log("err by finding user in db", err);
+            res.json({ success: false });
+        });
 });
 
 /* all routes before here! */

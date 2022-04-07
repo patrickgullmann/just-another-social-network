@@ -86,7 +86,9 @@ export class Registration extends Component {
                     ></input>
                     <button onClick={this.handleSubmit}>Register!</button>
                 </form>
-                <Link to="/login">Click here to Log in!</Link>
+                <Link to="/login">
+                    <button>Click here to Log in!</button>
+                </Link>
             </section>
         );
     }

@@ -1,14 +1,15 @@
 //below we are importing smth not exportet as "default"
+import Logo from "./logo";
 import { Registration } from "./registration";
 import { Login } from "./login";
-import Logo from "./logo";
+import { ResetPassword } from "./resetPassword";
 
 import { BrowserRouter, Route } from "react-router-dom";
 
 export default function Welcome() {
     return (
         <div id="welcome">
-            <h1>Welcome!</h1>
+            <h1>Welcome to another Social Network!</h1>
             <Logo />
             <BrowserRouter>
                 <div>
@@ -17,6 +18,9 @@ export default function Welcome() {
                     </Route>
                     <Route path="/login">
                         <Login />
+                    </Route>
+                    <Route path="/reset">
+                        <ResetPassword />
                     </Route>
                 </div>
             </BrowserRouter>
