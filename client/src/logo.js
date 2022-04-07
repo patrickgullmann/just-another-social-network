@@ -1,7 +1,7 @@
 export default function Logo() {
     return (
         <>
-            <img src="/images/logo.jpg" alt="logo" />
+            <img src="/images/logo.png" alt="logo" />
         </>
     );
 }

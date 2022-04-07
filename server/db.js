@@ -11,3 +11,7 @@ exports.addUser = (first, last, email, hashedPassword) => {
         [first, last, email, hashedPassword]
     );
 };
+
+exports.getUserPasswordByEmail = (email) => {
+    return db.query(`SELECT id, password FROM users WHERE email = $1`, [email]);
+};

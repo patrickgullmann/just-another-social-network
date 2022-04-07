@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 
-export class Registration extends Component {
+export class Login extends Component {
     constructor() {
         super();
         this.state = {
@@ -12,7 +12,6 @@ export class Registration extends Component {
     }
 
     handleChange(e) {
-        //just dynamic adding of a property to the state obj
         this.setState({
             [e.target.name]: e.target.value,
         });
@@ -20,12 +19,10 @@ export class Registration extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-
-        //anstatt JSON.stringify(this.state) senden wo error immer mitgesendet wird
         const body = { ...this.state };
         delete body.error;
 
-        fetch("/register.json", {
+        fetch("/login.json", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -53,23 +50,9 @@ export class Registration extends Component {
     render() {
         return (
             <section>
-                <h1 className="someClass">Registration!</h1>
+                <h1 className="someClass">Login!</h1>
                 {this.state.error && <h3>{this.state.error}</h3>}
                 <form>
-                    <input
-                        required
-                        name="first"
-                        placeholder="First Name"
-                        type="text"
-                        onChange={this.handleChange}
-                    ></input>
-                    <input
-                        required
-                        name="last"
-                        placeholder="Last Name"
-                        type="text"
-                        onChange={this.handleChange}
-                    ></input>
                     <input
                         required
                         name="email"
@@ -84,9 +67,9 @@ export class Registration extends Component {
                         type="password"
                         onChange={this.handleChange}
                     ></input>
-                    <button onClick={this.handleSubmit}>Register!</button>
+                    <button onClick={this.handleSubmit}>Login!</button>
                 </form>
-                <Link to="/login">Click here to Log in!</Link>
+                <Link to="/">Click here to Register!</Link>
             </section>
         );
     }

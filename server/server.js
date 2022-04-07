@@ -55,6 +55,33 @@ app.post("/register.json", function (req, res) {
         });
 });
 
+app.post("/login.json", (req, res) => {
+    const { email, password: passwordInserted } = req.body;
+    db.getUserPasswordByEmail(email)
+        .then((result) => {
+            const { password: passwordFromDb, id: userIdFromDb } =
+                result.rows[0];
+            compare(passwordInserted, passwordFromDb)
+                .then((match) => {
+                    if (match) {
+                        req.session.userId = userIdFromDb;
+                        res.json({ success: true });
+                    } else {
+                        //req.session = null; //?
+                        res.json({ success: false });
+                    }
+                })
+                .catch((err) => {
+                    console.log("err comparing passwords", err);
+                    res.json({ success: false });
+                });
+        })
+        .catch((err) => {
+            console.log("err getting data from db (no user?)", err);
+            res.json({ success: false });
+        });
+});
+
 app.get("/user/id.json", function (req, res) {
     res.json({
         userId: req.session.userId,
