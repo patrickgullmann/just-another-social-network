@@ -73,12 +73,9 @@ export class ResetPassword extends Component {
     }
 
     handleChange(e) {
-        this.setState(
-            {
-                [e.target.name]: e.target.value,
-            },
-            () => console.log(this.state)
-        );
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
     }
 
     handleEmailSubmit(e) {
@@ -120,7 +117,9 @@ export class ResetPassword extends Component {
         delete body.error;
         delete body.step;
 
-        fetch("/password/reset/verify", {
+        //email wird ja hier auch mit übergeben! da ja noch in this.state
+        //-> weil component ja nicht gewechselt hat (wir haben nur step gewechselt)
+        fetch("/password/reset/verify.json", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -129,15 +128,15 @@ export class ResetPassword extends Component {
         })
             .then((resp) => resp.json())
             .then((response) => {
-                // if (response.success) {
-                //     this.setState({
-                //         step: 2,
-                //     });
-                // } else {
-                //     this.setState({
-                //         error: "Something went wrong! Please try again.",
-                //     });
-                // }
+                if (response.success) {
+                    this.setState({
+                        step: 3,
+                    });
+                } else {
+                    this.setState({
+                        error: "Something went wrong! Please try again.",
+                    });
+                }
             })
             .catch((err) => {
                 console.log("err from sending reset code: ", err);

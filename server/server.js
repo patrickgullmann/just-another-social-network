@@ -129,6 +129,44 @@ app.post("/password/reset/start.json", function (req, res) {
         });
 });
 
+app.post("/password/reset/verify.json", function (req, res) {
+    const { email, code, newPassword } = req.body;
+
+    db.getCurrentValidCodes(email)
+        .then((result) => {
+            if (result.rows.length == 0) {
+                res.json({ success: false });
+            } else {
+                for (let i = 0; i < result.rows.length; i++) {
+                    if (result.rows[i].code == code) {
+                        hash(newPassword)
+                            .then((hashedPassword) => {
+                                db.updateUserPassword(email, hashedPassword)
+                                    .then(() => {
+                                        res.json({ success: true });
+                                    })
+                                    .catch((err) => {
+                                        console.log("err update password", err);
+                                        res.json({ success: false });
+                                    });
+                            })
+                            .catch((err) => {
+                                console.log("err hashing password", err);
+                                res.json({ success: false });
+                            });
+                        //sonst werden ja zwei res gesendet, siehe unten
+                        return;
+                    }
+                }
+                res.json({ success: false });
+            }
+        })
+        .catch((err) => {
+            console.log("err by getting current valid codes", err);
+            res.json({ success: false });
+        });
+});
+
 /* all routes before here! */
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

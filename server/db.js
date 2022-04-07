@@ -23,3 +23,18 @@ exports.insertSecretCode = (email, code) => {
         [email, code]
     );
 };
+
+exports.getCurrentValidCodes = (email) => {
+    return db.query(
+        `SELECT * FROM reset_codes 
+        WHERE email = $1 AND CURRENT_TIMESTAMP - timestamp < INTERVAL '10 minutes'`,
+        [email]
+    );
+};
+
+exports.updateUserPassword = (email, hashedPassword) => {
+    return db.query(`UPDATE users SET password = $2 WHERE email = $1`, [
+        email,
+        hashedPassword,
+    ]);
+};
