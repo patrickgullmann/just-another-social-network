@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS reset_codes CASCADE;
 
 -- new users table:
 CREATE TABLE users (
@@ -7,6 +8,7 @@ CREATE TABLE users (
     last        VARCHAR(255) NOT NULL CHECK (last != ''),
     email       VARCHAR(255) NOT NULL UNIQUE,
     password    VARCHAR(255) NOT NULL,
+    image_url   VARCHAR(255),
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

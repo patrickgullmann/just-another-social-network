@@ -12,7 +12,7 @@ exports.addUser = (first, last, email, hashedPassword) => {
     );
 };
 
-exports.getUserPasswordByEmail = (email) => {
+exports.getUserPasswordAndIdByEmail = (email) => {
     return db.query(`SELECT id, password FROM users WHERE email = $1`, [email]);
 };
 
@@ -37,4 +37,11 @@ exports.updateUserPassword = (email, hashedPassword) => {
         email,
         hashedPassword,
     ]);
+};
+
+exports.getUserInformation = (idFromCookie) => {
+    return db.query(
+        `SELECT id, first, last, image_url FROM users WHERE id = $1`,
+        [idFromCookie]
+    );
 };

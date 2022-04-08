@@ -65,7 +65,7 @@ app.post("/register.json", function (req, res) {
 
 app.post("/login.json", (req, res) => {
     const { email, password: passwordInserted } = req.body;
-    db.getUserPasswordByEmail(email)
+    db.getUserPasswordAndIdByEmail(email)
         .then((result) => {
             const { password: passwordFromDb, id: userIdFromDb } =
                 result.rows[0];
@@ -94,7 +94,7 @@ app.post("/password/reset/start.json", function (req, res) {
     const { email } = req.body;
 
     //just reuse query with other purpose -> find if user exists
-    db.getUserPasswordByEmail(email)
+    db.getUserPasswordAndIdByEmail(email)
         .then((result) => {
             if (result.rows.length == 0) {
                 res.json({ success: false });
@@ -167,6 +167,17 @@ app.post("/password/reset/verify.json", function (req, res) {
         });
 });
 
+app.get("/user", function (req, res) {
+    //get the info from the logged in user
+    db.getUserInformation(req.session.userId)
+        .then(({ rows }) => {
+            res.json(rows[0]);
+        })
+        .catch((err) => {
+            console.log("err by getting user info from db", err);
+        });
+});
+
 /* all routes before here! */
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
@@ -181,6 +192,23 @@ app.listen(process.env.PORT || 3001, function () {
 //npm run dev:server // npm run dev:client // npm run build (shows bundle)
 
 //but even we have 3001 one here webpack uses 3000 !!! -> so we have webpack in between so we go on
+
+/* -----------------------------------------------------------
+/* andere Art die Promises zu chainen mit nur einem catch für register.json*/
+/* ----------------------------------------------------------- */
+
+// hash(password)
+//     .then((hashedPassword) => {
+//         return db.addUser(first, last, email, hashedPassword);
+//     })
+//     .then(({ rows }) => {
+//         req.session.userId = rows[0].id;
+//         res.json({ success: true });
+//     })
+//     .catch((err) => {
+//         console.log("err at registering", err);
+//         res.json({ success: false });
+//     });
 
 /* -----------------------------------------------------------
 /* Try specific error messages and and registration.js set error to the response.errText*/
