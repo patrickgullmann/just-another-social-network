@@ -12,6 +12,9 @@ const db = require("./db");
 const cryptoRandomString = require("crypto-random-string");
 const ses = require("./ses");
 
+const { uploader } = require("./upload");
+const s3 = require("./s3");
+
 app.use(compression());
 
 app.use(express.json());
@@ -176,6 +179,25 @@ app.get("/user", function (req, res) {
         .catch((err) => {
             console.log("err by getting user info from db", err);
         });
+});
+
+app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+    //we dont have a body here with description
+    console.log("req.file: ", req.file); //from multer
+
+    const url = "https://s3.amazonaws.com/spicedling/" + req.file.filename;
+
+    if (req.file) {
+        db.updateProfilePicture(req.session.userId, url)
+            .then((result) => {
+                res.json(result.rows[0]);
+            })
+            .catch((err) => {
+                console.log("error adding image to db: ", err);
+            });
+    } else {
+        return res.sendStatus(500);
+    }
 });
 
 /* all routes before here! */

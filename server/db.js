@@ -45,3 +45,10 @@ exports.getUserInformation = (idFromCookie) => {
         [idFromCookie]
     );
 };
+
+exports.updateProfilePicture = (idFromCookie, imageUrl) => {
+    return db.query(
+        `UPDATE users SET image_url = $2 WHERE id = $1 RETURNING image_url`,
+        [idFromCookie, imageUrl]
+    );
+};

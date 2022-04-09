@@ -9,7 +9,8 @@ export default class App extends React.Component {
         super();
         this.state = {};
         this.showUploader = this.showUploader.bind(this);
-        this.hideUploaderByXClick = this.hideUploaderByXClick.bind(this);
+        this.hideUploader = this.hideUploader.bind(this);
+        this.updateProfilePicture = this.updateProfilePicture.bind(this);
     }
 
     componentDidMount() {
@@ -18,7 +19,6 @@ export default class App extends React.Component {
             .then((response) => {
                 // quick syntax for adding all to state property
                 this.setState(response);
-                console.log("heyhey", this.state);
             })
             .catch((err) => {
                 console.log("err from getting user data: ", err);
@@ -31,14 +31,20 @@ export default class App extends React.Component {
         });
     }
 
-    hideUploaderByXClick() {
+    hideUploader() {
         this.setState({
             uploaderIsVisible: false,
         });
     }
 
+    updateProfilePicture(updatedUrl) {
+        this.setState({
+            image_url: updatedUrl,
+        });
+    }
+
     render() {
-        // to allow to wait -> after fetch is done we go below
+        // to allow to wait -> after fetch /user is done we go below
         if (!this.state.id) {
             return <h3>Loading ... </h3>;
         }
@@ -53,7 +59,8 @@ export default class App extends React.Component {
                 />
                 {this.state.uploaderIsVisible && (
                     <Uploader
-                        hideUploaderByXClick={this.hideUploaderByXClick}
+                        hideUploader={this.hideUploader}
+                        updateProfilePicture={this.updateProfilePicture}
                     />
                 )}
             </>
