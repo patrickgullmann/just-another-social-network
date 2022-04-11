@@ -41,7 +41,7 @@ exports.updateUserPassword = (email, hashedPassword) => {
 
 exports.getUserInformation = (idFromCookie) => {
     return db.query(
-        `SELECT id, first, last, image_url FROM users WHERE id = $1`,
+        `SELECT id, first, last, image_url, biography FROM users WHERE id = $1`,
         [idFromCookie]
     );
 };
@@ -50,5 +50,12 @@ exports.updateProfilePicture = (idFromCookie, imageUrl) => {
     return db.query(
         `UPDATE users SET image_url = $2 WHERE id = $1 RETURNING image_url`,
         [idFromCookie, imageUrl]
+    );
+};
+
+exports.updateBiography = (idFromCookie, biography) => {
+    return db.query(
+        `UPDATE users SET biography = $2 WHERE id = $1 RETURNING biography`,
+        [idFromCookie, biography]
     );
 };

@@ -2,6 +2,7 @@ export default function ProfilePicture(props) {
     return (
         <>
             <img
+                className={props.givenClass ? props.givenClass : null}
                 src={
                     props.imageUrl
                         ? props.imageUrl
@@ -15,3 +16,5 @@ export default function ProfilePicture(props) {
 }
 // Andere Option (nicht Tertiäre Operatoren):
 // src={props.imageUrl || "/images/defaultPicture.png"}
+
+//note: class name könnte auch leer sein ohne teritär

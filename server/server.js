@@ -200,6 +200,19 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     }
 });
 
+app.post("/submit/biography.json", (req, res) => {
+    //console.log("req.body: ", req.body); 
+
+    db.updateBiography(req.session.userId, req.body.draftBio)
+        .then((result) => {
+            res.json(result.rows[0]);
+        })
+        .catch((err) => {
+            console.log("error adding bio to db: ", err);
+            return res.sendStatus(500);
+        });
+});
+
 /* all routes before here! */
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

@@ -3,6 +3,7 @@ import React from "react";
 import Logo from "./logo";
 import ProfilePicture from "./profilePicture";
 import Uploader from "./uploader";
+import Profile from "./profile";
 
 export default class App extends React.Component {
     constructor() {
@@ -11,6 +12,7 @@ export default class App extends React.Component {
         this.showUploader = this.showUploader.bind(this);
         this.hideUploader = this.hideUploader.bind(this);
         this.updateProfilePicture = this.updateProfilePicture.bind(this);
+        this.setBio = this.setBio.bind(this);
     }
 
     componentDidMount() {
@@ -19,6 +21,11 @@ export default class App extends React.Component {
             .then((response) => {
                 // quick syntax for adding all to state property
                 this.setState(response);
+                window.history.pushState(
+                    "",
+                    "",
+                    `${this.state.first}${this.state.last}`.toLowerCase()
+                );
             })
             .catch((err) => {
                 console.log("err from getting user data: ", err);
@@ -43,8 +50,13 @@ export default class App extends React.Component {
         });
     }
 
+    setBio(newBio) {
+        this.setState({
+            biography: newBio,
+        });
+    }
+
     render() {
-        // to allow to wait -> after fetch /user is done we go below
         if (!this.state.id) {
             return <h3>Loading ... </h3>;
         }
@@ -63,6 +75,14 @@ export default class App extends React.Component {
                         updateProfilePicture={this.updateProfilePicture}
                     />
                 )}
+                <Profile
+                    first={this.state.first}
+                    last={this.state.last}
+                    imageUrl={this.state.image_url}
+                    showUploader={this.showUploader}
+                    biography={this.state.biography}
+                    setBio={this.setBio}
+                />
             </>
         );
     }
