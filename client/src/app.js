@@ -62,19 +62,20 @@ export default class App extends React.Component {
         }
         return (
             <>
-                <Logo />
-                <ProfilePicture
-                    first={this.state.first}
-                    last={this.state.last}
-                    imageUrl={this.state.image_url}
-                    showUploader={this.showUploader}
-                />
-                {this.state.uploaderIsVisible && (
-                    <Uploader
-                        hideUploader={this.hideUploader}
-                        updateProfilePicture={this.updateProfilePicture}
+                <header>
+                    <Logo givenClass="logoInHeader" />
+                    <nav>
+                        <p>Link 1</p>
+                        <p>Link 2</p>
+                    </nav>
+                    <ProfilePicture
+                        givenClass="profilePictureInHeader"
+                        first={this.state.first}
+                        last={this.state.last}
+                        imageUrl={this.state.image_url}
+                        showUploader={this.showUploader}
                     />
-                )}
+                </header>
                 <Profile
                     first={this.state.first}
                     last={this.state.last}
@@ -83,6 +84,12 @@ export default class App extends React.Component {
                     biography={this.state.biography}
                     setBio={this.setBio}
                 />
+                {this.state.uploaderIsVisible && (
+                    <Uploader
+                        hideUploader={this.hideUploader}
+                        updateProfilePicture={this.updateProfilePicture}
+                    />
+                )}
             </>
         );
     }

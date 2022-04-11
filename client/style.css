@@ -7,13 +7,34 @@ body {
     background-color: ghostwhite;
 }
 
-img {
-    width: 150px;
+header {
+    background-color: rgb(202, 202, 202);
+    display: grid;
+    grid-template-columns: 200px 1fr 200px;
+    padding: 10px;
+    border-bottom: 1px solid rgb(78, 77, 77);
+}
+
+nav {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+}
+
+.logoInHeader {
+    height: 110px;
+    place-self: center;
+}
+
+.profilePictureInHeader {
+    height: 90px;
+    place-self: center;
 }
 
 .bigPicture {
     border: solid 2px red;
-    width: 300px;
+    height: 300px;
 }
 
 /* --------------------------- Modal --------------- */

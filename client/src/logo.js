@@ -1,7 +1,11 @@
-export default function Logo() {
+export default function Logo(props) {
     return (
         <>
-            <img src="/images/logo.png" alt="logo" />
+            <img
+                className={props.givenClass ? props.givenClass : null}
+                src="/images/logo.png"
+                alt="logo"
+            />
         </>
     );
 }

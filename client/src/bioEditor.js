@@ -39,7 +39,6 @@ export default class BioEditor extends React.Component {
         })
             .then((resp) => resp.json())
             .then(({ biography }) => {
-                //console.log(response);
                 this.props.setBio(biography);
                 this.setState({
                     textAreaVisible: false,
