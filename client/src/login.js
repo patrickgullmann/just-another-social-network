@@ -32,7 +32,9 @@ export class Login extends Component {
             .then((resp) => resp.json())
             .then((response) => {
                 if (response.success) {
-                    location.reload();
+                    // window.history.pushState({}, "", "/");
+                    // location.reload();
+                    location.replace("/");
                 } else {
                     this.setState({
                         error: "Something went wrong! Please try again.",

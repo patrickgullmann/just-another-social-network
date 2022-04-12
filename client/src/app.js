@@ -4,6 +4,10 @@ import Logo from "./logo";
 import ProfilePicture from "./profilePicture";
 import Uploader from "./uploader";
 import Profile from "./profile";
+import FindPeople from "./findPeople";
+
+import { BrowserRouter, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default class App extends React.Component {
     constructor() {
@@ -16,16 +20,11 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        fetch("/user")
+        fetch("/user.json")
             .then((resp) => resp.json())
             .then((response) => {
                 // quick syntax for adding all to state property
                 this.setState(response);
-                window.history.pushState(
-                    "",
-                    "",
-                    `${this.state.first}${this.state.last}`.toLowerCase()
-                );
             })
             .catch((err) => {
                 console.log("err from getting user data: ", err);
@@ -62,28 +61,39 @@ export default class App extends React.Component {
         }
         return (
             <>
-                <header>
-                    <Logo givenClass="logoInHeader" />
-                    <nav>
-                        <p>Link 1</p>
-                        <p>Link 2</p>
-                    </nav>
-                    <ProfilePicture
-                        givenClass="profilePictureInHeader"
-                        first={this.state.first}
-                        last={this.state.last}
-                        imageUrl={this.state.image_url}
-                        showUploader={this.showUploader}
-                    />
-                </header>
-                <Profile
-                    first={this.state.first}
-                    last={this.state.last}
-                    imageUrl={this.state.image_url}
-                    showUploader={this.showUploader}
-                    biography={this.state.biography}
-                    setBio={this.setBio}
-                />
+                <BrowserRouter>
+                    <header>
+                        <Logo givenClass="logoInHeader" />
+                        <nav>
+                            <Link to="/">Home</Link>
+                            <Link to="/users">Find Users</Link>
+                        </nav>
+                        <ProfilePicture
+                            givenClass="profilePictureInHeader"
+                            first={this.state.first}
+                            last={this.state.last}
+                            imageUrl={this.state.image_url}
+                            showUploader={this.showUploader}
+                        />
+                    </header>
+
+                    <div>
+                        <Route exact path="/">
+                            <Profile
+                                first={this.state.first}
+                                last={this.state.last}
+                                imageUrl={this.state.image_url}
+                                showUploader={this.showUploader}
+                                biography={this.state.biography}
+                                setBio={this.setBio}
+                            />
+                        </Route>
+                        <Route path="/users">
+                            <FindPeople />
+                        </Route>
+                    </div>
+                </BrowserRouter>
+
                 {this.state.uploaderIsVisible && (
                     <Uploader
                         hideUploader={this.hideUploader}

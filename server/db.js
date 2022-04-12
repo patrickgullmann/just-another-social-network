@@ -59,3 +59,16 @@ exports.updateBiography = (idFromCookie, biography) => {
         [idFromCookie, biography]
     );
 };
+
+exports.findMostRecentUsers = () => {
+    return db.query(
+        `SELECT id, first, last, image_url, biography FROM users ORDER BY id DESC LIMIT 3`
+    );
+};
+
+exports.findUsers = (searchTerm) => {
+    return db.query(
+        `SELECT id, first, last, image_url, biography FROM users WHERE first ILIKE $1 LIMIT 3`,
+        [searchTerm + "%"]
+    );
+};

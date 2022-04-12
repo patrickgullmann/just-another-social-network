@@ -170,7 +170,7 @@ app.post("/password/reset/verify.json", function (req, res) {
         });
 });
 
-app.get("/user", function (req, res) {
+app.get("/user.json", function (req, res) {
     //get the info from the logged in user
     db.getUserInformation(req.session.userId)
         .then(({ rows }) => {
@@ -181,7 +181,7 @@ app.get("/user", function (req, res) {
         });
 });
 
-app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+app.post("/upload.json", uploader.single("file"), s3.upload, (req, res) => {
     //we dont have a body here with description
     console.log("req.file: ", req.file); //from multer
 
@@ -201,7 +201,7 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 });
 
 app.post("/submit/biography.json", (req, res) => {
-    //console.log("req.body: ", req.body); 
+    //console.log("req.body: ", req.body);
 
     db.updateBiography(req.session.userId, req.body.draftBio)
         .then((result) => {
@@ -211,6 +211,29 @@ app.post("/submit/biography.json", (req, res) => {
             console.log("error adding bio to db: ", err);
             return res.sendStatus(500);
         });
+});
+
+app.get("/find-users", function (req, res) {
+    //req.query.search is the search term! and if nothing typed null?
+    //console.log(req.query.search);
+    if (req.query.search) {
+        db.findUsers(req.query.search)
+            .then(({ rows }) => {
+                res.json(rows);
+            })
+            .catch((err) => {
+                console.log("err by finding users from db", err);
+            });
+    } else {
+        //not typed -> get 3 most recent users
+        db.findMostRecentUsers()
+            .then(({ rows }) => {
+                res.json(rows);
+            })
+            .catch((err) => {
+                console.log("err by finding most recent users from db", err);
+            });
+    }
 });
 
 /* all routes before here! */

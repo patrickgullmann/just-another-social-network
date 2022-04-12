@@ -20,7 +20,7 @@ export default class Uploader extends React.Component {
         fd.append("file", this.file);
         //console.log(...fd);
 
-        fetch("/upload", {
+        fetch("/upload.json", {
             method: "POST",
             body: fd,
         })

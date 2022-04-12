@@ -30,11 +30,16 @@ nav {
 .profilePictureInHeader {
     height: 90px;
     place-self: center;
+    border-radius: 50%;
 }
 
 .bigPicture {
     border: solid 2px red;
     height: 300px;
+}
+
+.imgInFindPeople {
+    width: 150px;
 }
 
 /* --------------------------- Modal --------------- */
