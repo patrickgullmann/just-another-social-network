@@ -72,3 +72,10 @@ exports.findUsers = (searchTerm) => {
         [searchTerm + "%"]
     );
 };
+
+exports.findSpecificUserById = (id) => {
+    return db.query(
+        `SELECT id, first, last, image_url, biography FROM users WHERE id = $1`,
+        [id]
+    );
+};

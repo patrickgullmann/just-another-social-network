@@ -213,7 +213,7 @@ app.post("/submit/biography.json", (req, res) => {
         });
 });
 
-app.get("/find-users", function (req, res) {
+app.get("/api/find-users", function (req, res) {
     //req.query.search is the search term! and if nothing typed null?
     //console.log(req.query.search);
     if (req.query.search) {
@@ -234,6 +234,23 @@ app.get("/find-users", function (req, res) {
                 console.log("err by finding most recent users from db", err);
             });
     }
+});
+
+app.get("/api/user/:id", function (req, res) {
+    //console.log(req.params.id);
+    db.findSpecificUserById(req.params.id)
+        .then(({ rows }) => {
+            if (rows.length == 0) {
+                res.json({ notAnUser: true });
+            } else if (req.session.userId == rows[0].id) {
+                res.json({ currentUser: true });
+            } else {
+                res.json(rows[0]);
+            }
+        })
+        .catch((err) => {
+            console.log("err by finding specific user from db", err);
+        });
 });
 
 /* all routes before here! */

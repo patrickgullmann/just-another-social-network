@@ -5,6 +5,7 @@ import ProfilePicture from "./profilePicture";
 import Uploader from "./uploader";
 import Profile from "./profile";
 import FindPeople from "./findPeople";
+import OtherProfile from "./otherProfile";
 
 import { BrowserRouter, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -57,7 +58,7 @@ export default class App extends React.Component {
 
     render() {
         if (!this.state.id) {
-            return <h3>Loading ... </h3>;
+            return <h3>Loading ...</h3>;
         }
         return (
             <>
@@ -90,6 +91,9 @@ export default class App extends React.Component {
                         </Route>
                         <Route path="/users">
                             <FindPeople />
+                        </Route>
+                        <Route exact path="/user/:id">
+                            <OtherProfile />
                         </Route>
                     </div>
                 </BrowserRouter>

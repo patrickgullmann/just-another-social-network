@@ -4,7 +4,7 @@ import BioEditor from "./bioEditor";
 export default function Profile(props) {
     return (
         <div className="container">
-            <h1>This ist the Profile Component of </h1>
+            <h1>This is MY Profile Component of </h1>
             <h1>
                 {props.first} {props.last}
             </h1>
@@ -19,6 +19,3 @@ export default function Profile(props) {
         </div>
     );
 }
-
-//inside here you want to render first an last name of user
-//
