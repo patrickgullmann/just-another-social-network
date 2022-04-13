@@ -17,6 +17,8 @@ export default function FindPeople() {
             .then((response) => {
                 if (!abort) {
                     setUsers(response);
+                    //note: setUsers etc macht nicht wie this.setState ein "Shadowing"
+                    // ----> dh wenn man all vorheriges haben will ...response inside machen + neues adden
                 }
             });
 

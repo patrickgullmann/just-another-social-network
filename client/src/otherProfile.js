@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import ProfilePicture from "./profilePicture";
+//import ProfilePicture from "./profilePicture";
 
 export default function OtherProfile() {
     const [user, setUser] = useState({});
