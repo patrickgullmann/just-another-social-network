@@ -1,3 +1,5 @@
+const { smileys, randomIntFromInterval } = require("./smileys.js");
+
 const express = require("express");
 const app = express();
 const compression = require("compression");
@@ -303,8 +305,15 @@ app.get("*", function (req, res) {
 });
 
 app.listen(process.env.PORT || 3001, function () {
-    console.log(" 🌎 I'm listening on 3001 (or 3000 webpack) 🌴 🐙 ");
+    console.log(
+        ` ${
+            smileys[randomIntFromInterval(0, smileys.length)]
+        } I'm listening on 3000 webpack ${
+            smileys[randomIntFromInterval(0, smileys.length)]
+        } `
+    );
 });
+
 
 //note we have translating (that we can use tags in js) -> babel
 //and bundling -> webpack (to combine all js to one big one)
