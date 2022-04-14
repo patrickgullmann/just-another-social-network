@@ -20,3 +20,17 @@ CREATE TABLE reset_codes(
     code VARCHAR NOT NULL,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+--friendsss
+CREATE TABLE friendships(
+    id SERIAL PRIMARY KEY,
+    sender_id INTEGER NOT NULL REFERENCES users(id),
+    recipient_id INTEGER NOT NULL REFERENCES users(id),
+    accepted BOOLEAN NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+--smth to test all of this stuff
+INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES(206,1,true);
+INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES(202,1,false);
+DELETE FROM friendships WHERE id = 1;

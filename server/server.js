@@ -253,6 +253,50 @@ app.get("/api/user/:id", function (req, res) {
         });
 });
 
+app.get("/api/friendship/:otherUserId", function (req, res) {
+    //my ID stored in cookies and the other user ID from the req
+    db.getFriendshipStatus(req.session.userId, req.params.otherUserId)
+        .then(({ rows }) => {
+            //console.log(rows);
+            // NOTE -> COULD have done status checking also here in server!
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log("err by getting friendship status from db", err);
+        });
+});
+
+app.post("/api/friendship-status", function (req, res) {
+    const { otherUserId, action } = req.body;
+
+    if (action === "Send Friend Request") {
+        db.addFriendRequest(req.session.userId, otherUserId)
+            .then(() => {
+                //brauchen kein obj wie res.json({ answer: "Cancel Friend Request" })
+                res.json("Cancel Friend Request");
+            })
+            .catch((err) => {
+                console.log("err by add friend request to db", err);
+            });
+    } else if (action === "Accept Friend Request") {
+        db.acceptFriendRequest(req.session.userId, otherUserId)
+            .then(() => {
+                res.json("Unfriend");
+            })
+            .catch((err) => {
+                console.log("err by updating friend request in db (acc)", err);
+            });
+    } else if (action === "Cancel Friend Request" || action === "Unfriend") {
+        db.deleteFriendship(req.session.userId, otherUserId)
+            .then(() => {
+                res.json("Send Friend Request");
+            })
+            .catch((err) => {
+                console.log("err by delete friend req/friendship in db", err);
+            });
+    }
+});
+
 /* all routes before here! */
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

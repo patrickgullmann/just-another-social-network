@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-//import ProfilePicture from "./profilePicture";
+import FriendButton from "./friendButton";
 
 export default function OtherProfile() {
     const [user, setUser] = useState({});
@@ -41,6 +41,7 @@ export default function OtherProfile() {
                 alt={`${user.first} ${user.last}`}
             />
             <p>{user.biography}</p>
+            <FriendButton otherUserId={user.id} />
         </div>
     );
 }

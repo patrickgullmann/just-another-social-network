@@ -79,3 +79,39 @@ exports.findSpecificUserById = (id) => {
         [id]
     );
 };
+
+exports.getFriendshipStatus = (myId, otherUserId) => {
+    return db.query(
+        `SELECT * FROM friendships
+            WHERE (sender_id = $1 AND recipient_id = $2)
+            OR (sender_id = $2 AND recipient_id = $1);`,
+        [myId, otherUserId]
+    );
+};
+
+//no need for returning anything bc we just set strings in server.js
+exports.addFriendRequest = (myId, otherUserId) => {
+    return db.query(
+        `INSERT INTO friendships (sender_id, recipient_id, accepted)
+        VALUES ($1, $2, false)`,
+        [myId, otherUserId]
+    );
+};
+
+//no or needed bc the accept can only be seen when I am the recipient!
+exports.acceptFriendRequest = (myId, otherUserId) => {
+    return db.query(
+        `UPDATE friendships SET accepted = true 
+            WHERE sender_id = $2 AND recipient_id = $1;`,
+        [myId, otherUserId]
+    );
+};
+
+exports.deleteFriendship = (myId, otherUserId) => {
+    return db.query(
+        `DELETE FROM friendships 
+            WHERE (sender_id = $1 AND recipient_id = $2)
+            OR (sender_id = $2 AND recipient_id = $1);`,
+        [myId, otherUserId]
+    );
+};
