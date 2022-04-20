@@ -1,4 +1,3 @@
-//note in react the data lives in the outer most component(mother) -> given to children
 import React from "react";
 import Logo from "./logo";
 import ProfilePicture from "./profilePicture";
@@ -6,6 +5,7 @@ import Uploader from "./uploader";
 import Profile from "./profile";
 import FindPeople from "./findPeople";
 import OtherProfile from "./otherProfile";
+import FriendsAndWannabees from "./friendsAndWannabees";
 
 import { BrowserRouter, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -68,6 +68,7 @@ export default class App extends React.Component {
                         <nav>
                             <Link to="/">Home</Link>
                             <Link to="/users">Find Users</Link>
+                            <Link to="/friends">See Friends</Link>
                         </nav>
                         <ProfilePicture
                             givenClass="profilePictureInHeader"
@@ -94,6 +95,9 @@ export default class App extends React.Component {
                         </Route>
                         <Route exact path="/user/:id">
                             <OtherProfile />
+                        </Route>
+                        <Route exact path="/friends">
+                            <FriendsAndWannabees />
                         </Route>
                     </div>
                 </BrowserRouter>

@@ -47,7 +47,7 @@
         "react-router-dom": "^5.0.1",
         "react-test-renderer": "^17.0.1",
         "redux": "^4.0.5",
-        "redux-devtools-extension": "^2.13.2",
+        "redux-devtools-extension": "^2.13.9",
         "redux-immutable-state-invariant": "^2.1.0",
         "socket.io": "^3.0.4",
         "socket.io-client": "^3.0.4",

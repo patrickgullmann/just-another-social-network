@@ -299,6 +299,17 @@ app.post("/api/friendship-status", function (req, res) {
     }
 });
 
+app.get("/api/friends-wannabees", function (req, res) {
+    db.getFriendsAndWannabees(req.session.userId)
+        .then(({ rows }) => {
+            //console.log(rows);
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log("err by getting friends/wannabees from db", err);
+        });
+});
+
 /* all routes before here! */
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
@@ -307,13 +318,12 @@ app.get("*", function (req, res) {
 app.listen(process.env.PORT || 3001, function () {
     console.log(
         ` ${
-            smileys[randomIntFromInterval(0, smileys.length)]
+            smileys[randomIntFromInterval(0, smileys.length - 1)]
         } I'm listening on 3000 webpack ${
-            smileys[randomIntFromInterval(0, smileys.length)]
+            smileys[randomIntFromInterval(0, smileys.length - 1)]
         } `
     );
 });
-
 
 //note we have translating (that we can use tags in js) -> babel
 //and bundling -> webpack (to combine all js to one big one)

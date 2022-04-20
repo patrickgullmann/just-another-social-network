@@ -66,7 +66,7 @@ export default class BioEditor extends React.Component {
                 {this.state.textAreaVisible && (
                     <>
                         <textarea
-                            value={this.state.draftBio}
+                            value={this.state.draftBio || ""}
                             onChange={this.handleBioChange}
                         />
                         <button onClick={this.submitBio}>Update!</button>
