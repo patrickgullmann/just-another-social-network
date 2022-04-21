@@ -310,6 +310,26 @@ app.get("/api/friends-wannabees", function (req, res) {
         });
 });
 
+app.post("/api/accept-friend", function (req, res) {
+    db.acceptFriendRequest(req.session.userId, req.body.otherUserId)
+        .then(() => {
+            res.json({ otherUserId: req.body.otherUserId });
+        })
+        .catch((err) => {
+            console.log("err by updating friend request in db (acc)", err);
+        });
+});
+
+app.post("/api/unfriend/:otherUserId", function (req, res) {
+    db.deleteFriendship(req.session.userId, req.params.otherUserId)
+        .then(() => {
+            res.json({ success: true });
+        })
+        .catch((err) => {
+            console.log("err by delete friend req/friendship in db", err);
+        });
+});
+
 /* all routes before here! */
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
