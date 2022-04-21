@@ -24,11 +24,6 @@ export default function friendsWannabeesReducer(friendsWannabees = [], action) {
         // friendsWannabees = friendsWannabees.filter(
         //     (friendWannabee) => friendWannabee.id != action.payload.otherUserId
         // );
-
-        // ---> NOW TRY IT INfriendsANDWannabees.js in the state -> if you can rewrite!
-
-
-        
     } else if (action.type === "friends-wannabees/received") {
         friendsWannabees = action.payload.friendsAndWannabees;
     }

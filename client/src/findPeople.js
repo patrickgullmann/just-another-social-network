@@ -38,15 +38,17 @@ export default function FindPeople() {
                 {users.map((user) => (
                     <div key={user.id}>
                         <Link to={`/user/${user.id}`}>
-                            <img
-                                className="imgInFindPeople"
-                                src={
-                                    user.image_url
-                                        ? user.image_url
-                                        : "/images/defaultPicture.png"
-                                }
-                                alt={`${user.first} ${user.last}`}
-                            />
+                            <figure className="figureMediumSize">
+                                <img
+                                    className="imgMediumSize"
+                                    src={
+                                        user.image_url
+                                            ? user.image_url
+                                            : "/images/defaultPicture.png"
+                                    }
+                                    alt={`${user.first} ${user.last}`}
+                                />
+                            </figure>
                         </Link>
                         {user.first} {user.last}
                     </div>

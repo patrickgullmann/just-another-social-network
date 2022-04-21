@@ -9,6 +9,18 @@ import rootReducer from "./redux/reducer.js";
 
 import { Provider } from "react-redux";
 
+import { io } from "socket.io-client";
+
+const socket = io.connect();
+
+socket.on("greeting", (data) => {
+    console.log(data);
+});
+
+socket.emit("thanks", {
+    message: "Hello from the client",
+});
+
 const store = createStore(
     rootReducer,
     composeWithDevTools(applyMiddleware(immutableState.default()))

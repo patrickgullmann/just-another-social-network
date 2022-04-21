@@ -69,14 +69,17 @@ export default class App extends React.Component {
                             <Link to="/">Home</Link>
                             <Link to="/users">Find Users</Link>
                             <Link to="/friends">See Friends</Link>
+                            <a href="logout">Log Out</a>
                         </nav>
-                        <ProfilePicture
-                            givenClass="profilePictureInHeader"
-                            first={this.state.first}
-                            last={this.state.last}
-                            imageUrl={this.state.image_url}
-                            showUploader={this.showUploader}
-                        />
+                        <figure className="figureSmallSize">
+                            <ProfilePicture
+                                givenClass="imgSmallSize"
+                                first={this.state.first}
+                                last={this.state.last}
+                                imageUrl={this.state.image_url}
+                                showUploader={this.showUploader}
+                            />
+                        </figure>
                     </header>
 
                     <div>

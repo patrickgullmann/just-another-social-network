@@ -8,13 +8,15 @@ export default function Profile(props) {
             <h1>
                 {props.first} {props.last}
             </h1>
-            <ProfilePicture
-                givenClass="bigPicture"
-                first={props.first}
-                last={props.last}
-                imageUrl={props.imageUrl}
-                showUploader={props.showUploader}
-            />
+            <figure className="figureBigSize">
+                <ProfilePicture
+                    givenClass="imgBigSize"
+                    first={props.first}
+                    last={props.last}
+                    imageUrl={props.imageUrl}
+                    showUploader={props.showUploader}
+                />
+            </figure>
             <BioEditor biography={props.biography} setBio={props.setBio} />
         </div>
     );

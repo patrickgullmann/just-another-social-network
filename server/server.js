@@ -17,6 +17,12 @@ const ses = require("./ses");
 const { uploader } = require("./upload");
 const s3 = require("./s3");
 
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+});
+
 app.use(compression());
 
 app.use(express.json());
@@ -50,20 +56,17 @@ app.get("/logout", (req, res) => {
 app.post("/register.json", function (req, res) {
     const { first, last, email, password } = req.body;
 
+    //einmal andere Version von Chaining
     hash(password)
         .then((hashedPassword) => {
-            db.addUser(first, last, email, hashedPassword)
-                .then(({ rows }) => {
-                    req.session.userId = rows[0].id;
-                    res.json({ success: true });
-                })
-                .catch((err) => {
-                    console.log("err adding user to db or cookie", err);
-                    res.json({ success: false });
-                });
+            return db.addUser(first, last, email, hashedPassword);
+        })
+        .then(({ rows }) => {
+            req.session.userId = rows[0].id;
+            res.json({ success: true });
         })
         .catch((err) => {
-            console.log("err hashing password", err);
+            console.log("err at registering", err);
             res.json({ success: false });
         });
 });
@@ -335,7 +338,7 @@ app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(process.env.PORT || 3001, function () {
+server.listen(process.env.PORT || 3001, function () {
     console.log(
         ` ${
             smileys[randomIntFromInterval(0, smileys.length - 1)]
@@ -345,64 +348,25 @@ app.listen(process.env.PORT || 3001, function () {
     );
 });
 
-//note we have translating (that we can use tags in js) -> babel
-//and bundling -> webpack (to combine all js to one big one)
+io.on("connection", (socket) => {
+    console.log(`New connection established with user ${socket.id}`);
+
+    socket.on("disconnect", () => {
+        console.log(`User ${socket.id} just disconnected`);
+    });
+
+    socket.emit("greeting", {
+        message: "Hello from the server",
+    });
+
+    socket.on("thanks", (data) => {
+        console.log(data);
+    });
+
+    //inside a socket.io we can use io.emit() -> then ever user got informed!!!
+    //also socket.broadcast.emit() -> everone else got informed EXCEPT ME
+    //io.to(otherUserSocket.id).emit() -> just one with a specific socket.id gets informed e.g. private message
+    // ------> need in start js an socket.on listen for the events!!! -> to show smth on browser!!
+});
+
 //npm run dev:server // npm run dev:client // npm run build (shows bundle)
-
-//but even we have 3001 one here webpack uses 3000 !!! -> so we have webpack in between so we go on
-
-/* -----------------------------------------------------------
-/* andere Art die Promises zu chainen mit nur einem catch für register.json*/
-/* ----------------------------------------------------------- */
-
-// hash(password)
-//     .then((hashedPassword) => {
-//         return db.addUser(first, last, email, hashedPassword);
-//     })
-//     .then(({ rows }) => {
-//         req.session.userId = rows[0].id;
-//         res.json({ success: true });
-//     })
-//     .catch((err) => {
-//         console.log("err at registering", err);
-//         res.json({ success: false });
-//     });
-
-/* -----------------------------------------------------------
-/* Try specific error messages and and registration.js set error to the response.errText*/
-/* ----------------------------------------------------------- */
-
-// if (
-//     err.message ==
-//     `null value in column "first" of relation "users" violates not-null constraint`
-// ) {
-//     res.json({
-//         success: false,
-//         errText: "Missing First Name",
-//     });
-//     return;
-// }
-// if (
-//     err.message ==
-//     `null value in column "last" of relation "users" violates not-null constraint`
-// ) {
-//     res.json({
-//         success: false,
-//         errText: "Missing Last Name",
-//     });
-//     return;
-// }
-// if (
-//     err.message ==
-//     `duplicate key value violates unique constraint "users_email_key"`
-// ) {
-//     res.json({
-//         success: false,
-//         errText: "Email Address Already Taken",
-//     });
-//     return;
-// }
-// res.json({
-//     success: false,
-//     errText: "Something went wrong, please try again",
-// });

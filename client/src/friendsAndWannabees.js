@@ -6,6 +6,8 @@ import {
     unfriendFriend,
 } from "./redux/friends-wannabees/slice.js";
 
+import { Link } from "react-router-dom";
+
 export default function FriendsAndWannabees() {
     const dispatch = useDispatch();
 
@@ -14,16 +16,14 @@ export default function FriendsAndWannabees() {
             state.friendsWannabees &&
             state.friendsWannabees.filter((friendship) => !friendship.accepted)
     );
-
-    console.log("wannabees: ", wannabees);
+    //console.log("wannabees: ", wannabees);
 
     const friends = useSelector(
         (state) =>
             state.friendsWannabees &&
             state.friendsWannabees.filter((friendship) => friendship.accepted)
     );
-
-    console.log("friends: ", friends);
+    //console.log("friends: ", friends);
 
     // When component mounts, get all friends and wannabees
     useEffect(() => {
@@ -69,13 +69,18 @@ export default function FriendsAndWannabees() {
             {friends.map((friend) => {
                 return (
                     <div key={friend.id}>
-                        <img
-                            className="friendsWannabeesImg"
-                            src={
-                                friend.image_url || "/images/defaultPicture.png"
-                            }
-                            height={200}
-                        ></img>
+                        <Link to={`/user/${friend.id}`}>
+                            <figure className="figureMediumSize">
+                                <img
+                                    className="imgMediumSize"
+                                    src={
+                                        friend.image_url ||
+                                        "/images/defaultPicture.png"
+                                    }
+                                    alt={`${friend.first} ${friend.last}`}
+                                ></img>
+                            </figure>
+                        </Link>
                         <p>
                             {friend.first} {friend.last}
                         </p>
@@ -90,14 +95,18 @@ export default function FriendsAndWannabees() {
             {wannabees.map((wannabee) => {
                 return (
                     <div key={wannabee.id}>
-                        <img
-                            className="friendsWannabeesImg"
-                            src={
-                                wannabee.image_url ||
-                                "/images/defaultPicture.png"
-                            }
-                            height={200}
-                        ></img>
+                        <Link to={`/user/${wannabee.id}`}>
+                            <figure className="figureMediumSize">
+                                <img
+                                    className="imgMediumSize"
+                                    src={
+                                        wannabee.image_url ||
+                                        "/images/defaultPicture.png"
+                                    }
+                                    alt={`${wannabee.first} ${wannabee.last}`}
+                                ></img>
+                            </figure>
+                        </Link>
                         <p>
                             {wannabee.first} {wannabee.last}
                         </p>

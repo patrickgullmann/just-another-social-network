@@ -17,7 +17,7 @@ header {
 
 nav {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     gap: 20px;
 }
@@ -27,19 +27,50 @@ nav {
     place-self: center;
 }
 
-.profilePictureInHeader {
-    height: 90px;
+.figureSmallSize {
     place-self: center;
-    border-radius: 50%;
+    margin: 4px;
+    border: 1px solid rgb(19, 17, 17, 0.7);
+    position: relative;
+    height: 90px;
+    width: 85px;
 }
 
-.bigPicture {
-    border: solid 2px red;
-    height: 300px;
+.imgSmallSize {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(70%);
+}
+.figureMediumSize {
+    margin: 4px;
+    border: 1px solid rgb(19, 17, 17, 0.7);
+    position: relative;
+    height: 200px;
+    width: 140px;
 }
 
-.imgInFindPeople {
-    width: 150px;
+.imgMediumSize {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(70%);
+}
+
+.figureBigSize {
+    place-self: center;
+    margin: 4px;
+    border: 1px solid rgb(19, 17, 17, 0.7);
+    position: relative;
+    height: 320px;
+    width: 250px;
+}
+
+.imgBigSize {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(70%);
 }
 
 /* --------------------------- Modal --------------- */
