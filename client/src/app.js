@@ -6,6 +6,7 @@ import Profile from "./profile";
 import FindPeople from "./findPeople";
 import OtherProfile from "./otherProfile";
 import FriendsAndWannabees from "./friendsAndWannabees";
+import Chat from "./chat";
 
 import { BrowserRouter, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -69,7 +70,8 @@ export default class App extends React.Component {
                             <Link to="/">Home</Link>
                             <Link to="/users">Find Users</Link>
                             <Link to="/friends">See Friends</Link>
-                            <a href="logout">Log Out</a>
+                            <Link to="/chat">Global Chat</Link>
+                            <a href="/logout">Log Out</a>
                         </nav>
                         <figure className="figureSmallSize">
                             <ProfilePicture
@@ -101,6 +103,9 @@ export default class App extends React.Component {
                         </Route>
                         <Route exact path="/friends">
                             <FriendsAndWannabees />
+                        </Route>
+                        <Route exact path="/chat">
+                            <Chat />
                         </Route>
                     </div>
                 </BrowserRouter>

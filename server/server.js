@@ -27,13 +27,18 @@ app.use(compression());
 
 app.use(express.json());
 
-app.use(
-    cookieSession({
-        secret: secrets,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-        sameSite: true,
-    })
-);
+const cookieSessionMiddleware = cookieSession({
+    secret: secrets,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+    sameSite: true,
+});
+
+app.use(cookieSessionMiddleware);
+
+//just that our socket.io can also use below the cookie and userId in it!
+io.use((socket, next) => {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use((req, res, next) => {
     res.set("x-frame-options", "deny");
@@ -348,25 +353,27 @@ server.listen(process.env.PORT || 3001, function () {
     );
 });
 
-io.on("connection", (socket) => {
-    console.log(`New connection established with user ${socket.id}`);
+io.on("connection", async (socket) => {
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+    const userId = socket.request.session.userId;
+    //console.log("User ID: ", userId);
 
-    socket.on("disconnect", () => {
-        console.log(`User ${socket.id} just disconnected`);
+    //get last ten messages and send them to socket.js (there to then to redux)
+    const { rows: messages } = await db.getLastTenMessages();
+    messages.reverse();
+    socket.emit("last-10-messages", messages);
+
+    //listen for getting a message
+    socket.on("message", async (messageText) => {
+        //add message to db
+        const { rows } = await db.addMessage(userId, messageText);
+        //get needed info for INSERTED massage from join userers/messages
+        const { rows: messageInfo } = await db.getMyLastMessageInfo(rows[0].id);
+        //emit to everbody
+        io.emit("message-to-everybody", messageInfo[0]);
     });
-
-    socket.emit("greeting", {
-        message: "Hello from the server",
-    });
-
-    socket.on("thanks", (data) => {
-        console.log(data);
-    });
-
-    //inside a socket.io we can use io.emit() -> then ever user got informed!!!
-    //also socket.broadcast.emit() -> everone else got informed EXCEPT ME
-    //io.to(otherUserSocket.id).emit() -> just one with a specific socket.id gets informed e.g. private message
-    // ------> need in start js an socket.on listen for the events!!! -> to show smth on browser!!
 });
 
 //npm run dev:server // npm run dev:client // npm run build (shows bundle)

@@ -127,3 +127,33 @@ exports.getFriendsAndWannabees = (myId) => {
         [myId]
     );
 };
+
+exports.getLastTenMessages = () => {
+    return db.query(
+        `SELECT messages.id AS message_id, sender_id, first, last, image_url, message 
+            FROM messages
+            JOIN users
+            ON messages.sender_id = users.id 
+            ORDER BY messages.id DESC
+            LIMIT 10;`
+    );
+};
+
+exports.addMessage = (myId, messageText) => {
+    return db.query(
+        `INSERT INTO messages (sender_id, message)
+        VALUES ($1, $2) RETURNING id`,
+        [myId, messageText]
+    );
+};
+
+exports.getMyLastMessageInfo = (messageId) => {
+    return db.query(
+        `SELECT messages.id AS message_id, sender_id, first, last, image_url, message 
+            FROM messages
+            JOIN users
+            ON messages.sender_id = users.id 
+            WHERE messages.id = $1;`,
+        [messageId]
+    );
+};

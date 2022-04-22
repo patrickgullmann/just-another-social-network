@@ -9,17 +9,7 @@ import rootReducer from "./redux/reducer.js";
 
 import { Provider } from "react-redux";
 
-import { io } from "socket.io-client";
-
-const socket = io.connect();
-
-socket.on("greeting", (data) => {
-    console.log(data);
-});
-
-socket.emit("thanks", {
-    message: "Hello from the client",
-});
+import { init } from "./socket.js";
 
 const store = createStore(
     rootReducer,
@@ -29,7 +19,11 @@ const store = createStore(
 fetch("/user/id.json")
     .then((response) => response.json())
     .then((data) => {
-        //we have two single pages! -> one for logged out users
+        //init for the websocket 
+        //+ needs also the store of redux!
+        init(store);
+
+        //two single pages! -> one for logged out
         if (!data.userId) {
             ReactDOM.render(<Welcome />, document.querySelector("main"));
         } else {

@@ -19,7 +19,7 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 60px;
 }
 
 .logoInHeader {
@@ -71,6 +71,17 @@ nav {
     height: 100%;
     object-fit: cover;
     filter: brightness(70%);
+}
+
+.chatWindowContainer {
+    height: 350px;
+    width: 700px;
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    overflow: scroll;
+    display: flex;
+    /* change in server.js messages.reverse() to make the trick 
+    flex-direction: column-reverse; */
+    flex-direction: column;
 }
 
 /* --------------------------- Modal --------------- */

@@ -34,3 +34,16 @@ CREATE TABLE friendships(
 INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES(206,1,true);
 INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES(202,1,false);
 DELETE FROM friendships WHERE id = 1;
+
+-- table for the messages
+CREATE TABLE messages(
+    id SERIAL PRIMARY KEY,
+    sender_id INTEGER NOT NULL REFERENCES users(id),
+    --recipient_id INTEGER NOT NULL REFERENCES users(id), --for private messages
+    message VARCHAR(500) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO messages (sender_id, message) VALUES(1,'Hello World 🐝, love that first message!');
+INSERT INTO messages (sender_id, message) VALUES(206,'Spammming as the second nice one!');
+INSERT INTO messages (sender_id, message) VALUES(207,'Bli Bla Bluuuuu 🦍 ');
