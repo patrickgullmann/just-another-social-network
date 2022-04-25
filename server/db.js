@@ -133,7 +133,8 @@ exports.getLastTenMessages = () => {
         `SELECT messages.id AS message_id, sender_id, first, last, image_url, message 
             FROM messages
             JOIN users
-            ON messages.sender_id = users.id 
+            ON messages.sender_id = users.id
+            WHERE recipient_id IS NULL
             ORDER BY messages.id DESC
             LIMIT 10;`
     );
@@ -155,5 +156,28 @@ exports.getMyLastMessageInfo = (messageId) => {
             ON messages.sender_id = users.id 
             WHERE messages.id = $1;`,
         [messageId]
+    );
+};
+
+exports.checkPrivateChatAllowed = (myId, otherUserId) => {
+    return db.query(
+        `SELECT accepted FROM friendships
+            WHERE (sender_id = $1 AND recipient_id = $2)
+            OR (sender_id = $2 AND recipient_id = $1);`,
+        [myId, otherUserId]
+    );
+};
+
+exports.getLastTenPrivateMessages = (myId, otherUserId) => {
+    return db.query(
+        `SELECT messages.id AS message_id, sender_id, first, last, image_url, message
+            FROM messages
+            JOIN users
+            ON messages.sender_id = users.id
+            WHERE (sender_id = $1 AND recipient_id = $2)
+            OR (sender_id = $2 AND recipient_id = $1)
+            ORDER BY messages.id DESC
+            LIMIT 10;`,
+        [myId, otherUserId]
     );
 };

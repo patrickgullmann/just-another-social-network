@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import FriendButton from "./friendButton";
+import PrivateChat from "./privateChat";
 
 export default function OtherProfile() {
     const [user, setUser] = useState({});
@@ -44,6 +45,7 @@ export default function OtherProfile() {
             </figure>
             <p>{user.biography}</p>
             <FriendButton otherUserId={user.id} />
+            <PrivateChat otherUserId={user.id} otherUserFirst={user.first} />
         </div>
     );
 }

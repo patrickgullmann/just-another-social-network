@@ -338,6 +338,22 @@ app.post("/api/unfriend/:otherUserId", function (req, res) {
         });
 });
 
+app.get("/api/check-private-chat-allowed/:otherUserId", function (req, res) {
+    db.checkPrivateChatAllowed(req.session.userId, req.params.otherUserId)
+        .then(({ rows }) => {
+            if (rows.length == 0) {
+                res.json({ allowed: false });
+            } else if (rows[0].accepted == false) {
+                res.json({ allowed: false });
+            } else {
+                res.json({ allowed: true });
+            }
+        })
+        .catch((err) => {
+            console.log("err by getting friends/wannabees from db", err);
+        });
+});
+
 /* all routes before here! */
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
@@ -360,6 +376,11 @@ io.on("connection", async (socket) => {
     const userId = socket.request.session.userId;
     //console.log("User ID: ", userId);
 
+    console.log(socket.id);
+    socket.on("disconnect", function () {
+        console.log(`socket with the id ${socket.id} is now disconnected`);
+    });
+
     //get last ten messages and send them to socket.js (there to then to redux)
     const { rows: messages } = await db.getLastTenMessages();
     messages.reverse();
@@ -374,6 +395,21 @@ io.on("connection", async (socket) => {
         //emit to everbody
         io.emit("message-to-everybody", messageInfo[0]);
     });
+
+    socket.on("get-last-10-private-messages", async (data) => {
+        console.log(data.otherUserId);
+        console.log(userId);
+
+        const { rows: privateMessages } = await db.getLastTenPrivateMessages(
+            userId,
+            data.otherUserId
+        );
+        privateMessages.reverse();
+        //note: the first, last, etc is ALWAYS the one from the sender
+        socket.emit("send-last-10-private-messages", privateMessages);
+    });
+
+    //für private müssen wir über objekt gehen! mit den sockets für aktualisierung
 });
 
 //npm run dev:server // npm run dev:client // npm run build (shows bundle)

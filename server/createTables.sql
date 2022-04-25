@@ -39,7 +39,7 @@ DELETE FROM friendships WHERE id = 1;
 CREATE TABLE messages(
     id SERIAL PRIMARY KEY,
     sender_id INTEGER NOT NULL REFERENCES users(id),
-    --recipient_id INTEGER NOT NULL REFERENCES users(id), --for private messages
+    recipient_id INTEGER REFERENCES users(id), 
     message VARCHAR(500) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -47,3 +47,11 @@ CREATE TABLE messages(
 INSERT INTO messages (sender_id, message) VALUES(1,'Hello World 🐝, love that first message!');
 INSERT INTO messages (sender_id, message) VALUES(206,'Spammming as the second nice one!');
 INSERT INTO messages (sender_id, message) VALUES(207,'Bli Bla Bluuuuu 🦍 ');
+INSERT INTO messages (sender_id, recipient_id, message) VALUES(210, 1, 'Was geht???');
+INSERT INTO messages (sender_id, recipient_id, message) VALUES(205, 1, 'Spammmmmmmm');
+INSERT INTO messages (sender_id, recipient_id, message) VALUES(1, 210, 'Mega nice hier 🐙');
+INSERT INTO messages (sender_id, recipient_id, message) VALUES(210, 209, 'Naja da sollten wir mal chatten');
+INSERT INTO messages (sender_id, recipient_id, message) VALUES(209, 1, 'Was geht? <3');
+INSERT INTO messages (sender_id, recipient_id, message) VALUES(1, 209, 'Nicht soviel und bei dir? :O');
+INSERT INTO messages (sender_id, recipient_id, message) VALUES(209, 1, 'Bissl abhängen mit Mushrooooms');
+INSERT INTO messages (sender_id, recipient_id, message) VALUES(1, 209, 'WOOOOOOOW 🐶');
