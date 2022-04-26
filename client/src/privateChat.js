@@ -12,6 +12,7 @@ export default function PrivateChat(props) {
     );
 
     const [privateMessageText, setPrivateMessageText] = useState("");
+    console.log(privateMessageText);
 
     const chatWindowContainer = useRef();
 
@@ -41,7 +42,10 @@ export default function PrivateChat(props) {
 
     const submitPrivateMessage = () => {
         // Send a message to the server
-        socket.emit("send-private-message", privateMessageText);
+        socket.emit("send-private-message", {
+            privateMessageText,
+            otherUserId: props.otherUserId,
+        });
         setPrivateMessageText("");
     };
 

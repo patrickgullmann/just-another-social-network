@@ -369,16 +369,20 @@ server.listen(process.env.PORT || 3001, function () {
     );
 });
 
+let onlineUsers = {};
+
 io.on("connection", async (socket) => {
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
     const userId = socket.request.session.userId;
-    //console.log("User ID: ", userId);
 
-    console.log(socket.id);
-    socket.on("disconnect", function () {
-        console.log(`socket with the id ${socket.id} is now disconnected`);
+    //setup for private messages
+    onlineUsers[socket.id] = userId;
+    console.log(onlineUsers);
+    socket.on("disconnect", () => {
+        delete onlineUsers[socket.id];
+        console.log(onlineUsers, "after one gone");
     });
 
     //get last ten messages and send them to socket.js (there to then to redux)
@@ -409,7 +413,38 @@ io.on("connection", async (socket) => {
         socket.emit("send-last-10-private-messages", privateMessages);
     });
 
-    //für private müssen wir über objekt gehen! mit den sockets für aktualisierung
+    socket.on("send-private-message", async (data) => {
+        console.log(userId);
+        console.log(data.otherUserId);
+        console.log(data.privateMessageText);
+
+        //add message to db
+        const { rows } = await db.addPrivateMessage(
+            userId,
+            data.otherUserId,
+            data.privateMessageText
+        );
+        //get needed info for INSERTED massage from join userers/messages
+        const { rows: privateMessageInfo } =
+            await db.getMyLastPrivateMessageInfo(rows[0].id);
+        console.log(privateMessageInfo[0]);
+
+        //prop sind sockets und onlineUsers[prop] sind IDs
+        for (const prop in onlineUsers) {
+            if (
+                onlineUsers[prop] == userId ||
+                onlineUsers[prop] == data.otherUserId
+            ) {
+                io.to(prop).emit(
+                    "private-message-to-me-and-other-user",
+                    privateMessageInfo[0]
+                );
+            }
+
+            console.log("looop", prop);
+            console.log("loop", onlineUsers[prop]);
+        }
+    });
 });
 
 //npm run dev:server // npm run dev:client // npm run build (shows bundle)

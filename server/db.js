@@ -170,7 +170,7 @@ exports.checkPrivateChatAllowed = (myId, otherUserId) => {
 
 exports.getLastTenPrivateMessages = (myId, otherUserId) => {
     return db.query(
-        `SELECT messages.id AS message_id, sender_id, first, last, image_url, message
+        `SELECT messages.id AS message_id, sender_id, first, last, image_url, recipient_id, message
             FROM messages
             JOIN users
             ON messages.sender_id = users.id
@@ -179,5 +179,24 @@ exports.getLastTenPrivateMessages = (myId, otherUserId) => {
             ORDER BY messages.id DESC
             LIMIT 10;`,
         [myId, otherUserId]
+    );
+};
+
+exports.addPrivateMessage = (myId, otherUserId, messageText) => {
+    return db.query(
+        `INSERT INTO messages (sender_id, recipient_id, message)
+        VALUES ($1, $2, $3) RETURNING id`,
+        [myId, otherUserId, messageText]
+    );
+};
+
+exports.getMyLastPrivateMessageInfo = (messageId) => {
+    return db.query(
+        `SELECT messages.id AS message_id, sender_id, first, last, image_url, recipient_id, message 
+            FROM messages
+            JOIN users
+            ON messages.sender_id = users.id 
+            WHERE messages.id = $1;`,
+        [messageId]
     );
 };

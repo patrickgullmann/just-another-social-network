@@ -3,7 +3,10 @@ import {
     receiveLastTenMessages,
     receiveMessage,
 } from "./redux/messages/slice.js";
-import { receiveLastTenPrivateMessages } from "./redux/private-messages/slice.js";
+import {
+    receiveLastTenPrivateMessages,
+    receivePrivateMessage,
+} from "./redux/private-messages/slice.js";
 
 //der socket für die Client Side
 export let socket;
@@ -27,6 +30,10 @@ export const init = (store) => {
             // Update the redux store
             console.log(data);
             store.dispatch(receiveLastTenPrivateMessages(data));
+        });
+
+        socket.on("private-message-to-me-and-other-user", (data) => {
+            store.dispatch(receivePrivateMessage(data));
         });
     }
 };
