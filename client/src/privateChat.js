@@ -4,6 +4,7 @@ import { socket } from "./socket.js";
 
 //updated nicht für friendbutton change -> müsste refreshen! (lösung über otherprofile state einführen
 // und funktion an Friendbutton geben, die state von parent holt und hier abrufen)
+// ----> DO IT WITH REDUX! EASIER
 export default function PrivateChat(props) {
     const [allowed, setAllowed] = useState(false);
 

@@ -35,6 +35,11 @@ INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES(206,1,true);
 INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES(202,1,false);
 DELETE FROM friendships WHERE id = 1;
 
+INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES(190,1,false);
+INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES(200,1,false);
+INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES(199,1,false);
+
+
 -- table for the messages
 CREATE TABLE messages(
     id SERIAL PRIMARY KEY,
