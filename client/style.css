@@ -28,7 +28,6 @@ nav {
     letter-spacing: 2px;
 }
 .link:hover {
-    text-transform: uppercase;
     cursor: pointer;
 }
 

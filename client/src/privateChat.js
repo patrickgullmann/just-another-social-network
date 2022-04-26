@@ -2,9 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect, useRef } from "react";
 import { socket } from "./socket.js";
 
-//updated nicht für friendbutton change -> müsste refreshen! (lösung über otherprofile state einführen
-// und funktion an Friendbutton geben, die state von parent holt und hier abrufen)
-// ----> DO IT WITH REDUX! EASIER
+//allowPrivateChat -> EXISTIERT NUR FÜR DEN FALL WENN JEMAND SCHON AUF DER PAGE IST
 export default function PrivateChat(props) {
     const [allowed, setAllowed] = useState(false);
 
@@ -13,9 +11,12 @@ export default function PrivateChat(props) {
     );
 
     const [privateMessageText, setPrivateMessageText] = useState("");
-    console.log(privateMessageText);
+    //console.log(privateMessageText);
 
     const chatWindowContainer = useRef();
+
+    const allowPrivateChat = props.allowPrivateChat;
+    //console.log(props.allowPrivateChat);
 
     useEffect(() => {
         fetch(`/api/check-private-chat-allowed/${props.otherUserId}`)
@@ -31,7 +32,7 @@ export default function PrivateChat(props) {
             .catch((err) => {
                 console.log("err from checking private chat allowed: ", err);
             });
-    }, []);
+    }, [allowPrivateChat]);
 
     useEffect(() => {
         if (allowed) {

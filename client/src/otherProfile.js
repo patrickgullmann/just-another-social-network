@@ -5,6 +5,7 @@ import PrivateChat from "./privateChat";
 
 export default function OtherProfile() {
     const [user, setUser] = useState({});
+    const [allowPrivateChat, setAllowPrivateChat] = useState(false);
     const params = useParams();
     const history = useHistory();
 
@@ -26,6 +27,14 @@ export default function OtherProfile() {
             });
     }, []);
 
+    const clickToAllowPrivateChat = () => {
+        setAllowPrivateChat(true);
+    };
+
+    const clickToDisablePrivateChat = () => {
+        setAllowPrivateChat(false);
+    };
+
     //need if here bc return runs before mount meaning default img will be displayed
     if (!user.id) {
         return <></>;
@@ -44,12 +53,17 @@ export default function OtherProfile() {
                     />
                 </figure>
                 <p>{user.biography}</p>
-                <FriendButton otherUserId={user.id} />
+                <FriendButton
+                    otherUserId={user.id}
+                    clickToAllowPrivateChat={clickToAllowPrivateChat}
+                    clickToDisablePrivateChat={clickToDisablePrivateChat}
+                />
             </section>
             <PrivateChat
                 otherUserId={user.id}
                 otherUserFirst={user.first}
                 otherUserLast={user.last}
+                allowPrivateChat={allowPrivateChat}
             />
         </div>
     );

@@ -43,6 +43,13 @@ export default function FriendButton(props) {
             .then((response) => {
                 //bc in server we define what button will be set!!
                 setButtonText(response);
+                if (response == "Unfriend") {
+                    //actually the click is done below
+                    props.clickToAllowPrivateChat();
+                } else if (response == "Send Friend Request") {
+                    //actually the click is done below
+                    props.clickToDisablePrivateChat();
+                }
             });
     };
 
