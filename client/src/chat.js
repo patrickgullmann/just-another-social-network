@@ -30,21 +30,25 @@ export default function Chat() {
             <div className="chatWindowContainer" ref={chatWindowContainer}>
                 {messages.map((message) => {
                     return (
-                        <div key={message.message_id}>
-                            <figure className="figureSmallSize">
-                                <img
-                                    className="imgSmallSize"
-                                    src={
-                                        message.image_url ||
-                                        "/images/defaultPicture.png"
-                                    }
-                                    alt={`${message.first} ${message.last}`}
-                                ></img>
-                            </figure>
-                            <p>
-                                {message.first} {message.last}
-                            </p>
-                            <p>{message.message}</p>
+                        <div className="oneMessage" key={message.message_id}>
+                            <section className="oneMessagePicture">
+                                <figure className="figureSmallSize">
+                                    <img
+                                        className="imgSmallSize"
+                                        src={
+                                            message.image_url ||
+                                            "/images/defaultPicture.png"
+                                        }
+                                        alt={`${message.first} ${message.last}`}
+                                    ></img>
+                                </figure>
+                            </section>
+                            <section className="oneMessageNameAndText">
+                                <p>
+                                    {message.first} {message.last}
+                                </p>
+                                <p>{message.message}</p>
+                            </section>
                         </div>
                     );
                 })}
@@ -54,6 +58,7 @@ export default function Chat() {
                 placeholder="Drop a nice message ... "
                 onChange={(e) => setMessageText(e.target.value)}
             />
+            <p></p>
             <button onClick={submitMessage}>Update!</button>
         </section>
     );

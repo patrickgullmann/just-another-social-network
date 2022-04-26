@@ -67,12 +67,24 @@ export default class App extends React.Component {
                     <header>
                         <Logo givenClass="logoInHeader" />
                         <nav>
-                            <Link to="/">Home</Link>
-                            <Link to="/users">Find Users</Link>
-                            <Link to="/friends">See Friends</Link>
-                            <Link to="/chat">Global Chat</Link>
-                            <Link to="/private-chat-section">Private Chat</Link>
-                            <a href="/logout">Log Out</a>
+                            <Link to="/" className="link">
+                                Home
+                            </Link>
+                            <Link to="/users" className="link">
+                                Find Users
+                            </Link>
+                            <Link to="/friends" className="link">
+                                See Friends
+                            </Link>
+                            <Link to="/chat" className="link">
+                                Global Chat
+                            </Link>
+                            <Link to="/private-chat-section" className="link">
+                                Private Chats
+                            </Link>
+                            <a href="/logout" className="link">
+                                Log Out
+                            </a>
                         </nav>
                         <figure className="figureSmallSize">
                             <ProfilePicture
@@ -85,7 +97,7 @@ export default class App extends React.Component {
                         </figure>
                     </header>
 
-                    <div>
+                    <>
                         <Route exact path="/">
                             <Profile
                                 first={this.state.first}
@@ -108,7 +120,7 @@ export default class App extends React.Component {
                         <Route exact path="/chat">
                             <Chat />
                         </Route>
-                    </div>
+                    </>
                 </BrowserRouter>
 
                 {this.state.uploaderIsVisible && (

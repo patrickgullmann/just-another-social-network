@@ -32,20 +32,25 @@ export default function OtherProfile() {
     }
     return (
         <div className="containerOtherProfile">
-            <h1>This ist the Other Profile Component of </h1>
-            <h1>
-                {user.first} {user.last}
-            </h1>
-            <figure className="figureBigSize">
-                <img
-                    className="imgBigSize"
-                    src={user.image_url || "/images/defaultPicture.png"}
-                    alt={`${user.first} ${user.last}`}
-                />
-            </figure>
-            <p>{user.biography}</p>
-            <FriendButton otherUserId={user.id} />
-            <PrivateChat otherUserId={user.id} otherUserFirst={user.first} />
+            <section className="otherProfileInfo">
+                <h1>
+                    Profile of {user.first} {user.last}
+                </h1>
+                <figure className="figureBigSize">
+                    <img
+                        className="imgBigSize"
+                        src={user.image_url || "/images/defaultPicture.png"}
+                        alt={`${user.first} ${user.last}`}
+                    />
+                </figure>
+                <p>{user.biography}</p>
+                <FriendButton otherUserId={user.id} />
+            </section>
+            <PrivateChat
+                otherUserId={user.id}
+                otherUserFirst={user.first}
+                otherUserLast={user.last}
+            />
         </div>
     );
 }

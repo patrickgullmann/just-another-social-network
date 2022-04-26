@@ -35,24 +35,26 @@ export default function FindPeople() {
             <div id="userContainer">
                 {!searchTerm && <h3>Most recently joined users: </h3>}
                 {searchTerm && <h3>Your search result: </h3>}
-                {users.map((user) => (
-                    <div key={user.id}>
-                        <Link to={`/user/${user.id}`}>
-                            <figure className="figureMediumSize">
-                                <img
-                                    className="imgMediumSize"
-                                    src={
-                                        user.image_url
-                                            ? user.image_url
-                                            : "/images/defaultPicture.png"
-                                    }
-                                    alt={`${user.first} ${user.last}`}
-                                />
-                            </figure>
-                        </Link>
-                        {user.first} {user.last}
-                    </div>
-                ))}
+                <section className="containerSearchedUsers">
+                    {users.map((user) => (
+                        <div key={user.id}>
+                            <Link to={`/user/${user.id}`}>
+                                <figure className="figureMediumSize">
+                                    <img
+                                        className="imgMediumSize"
+                                        src={
+                                            user.image_url
+                                                ? user.image_url
+                                                : "/images/defaultPicture.png"
+                                        }
+                                        alt={`${user.first} ${user.last}`}
+                                    />
+                                </figure>
+                            </Link>
+                            {user.first} {user.last}
+                        </div>
+                    ))}
+                </section>
             </div>
         </section>
     );

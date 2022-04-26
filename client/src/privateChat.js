@@ -53,27 +53,36 @@ export default function PrivateChat(props) {
         return <></>;
     }
     return (
-        <section>
-            <h1>Private Chat to {props.otherUserFirst}</h1>
+        <section className="otherProfileMessages">
+            <h1>
+                Private Chat to {props.otherUserFirst} {props.otherUserLast}
+            </h1>
             <div className="chatWindowContainer" ref={chatWindowContainer}>
                 {privateMessages.map((privateMessage) => {
                     // first last is always from the sender!
                     return (
-                        <div key={privateMessage.message_id}>
-                            <figure className="figureSmallSize">
-                                <img
-                                    className="imgSmallSize"
-                                    src={
-                                        privateMessage.image_url ||
-                                        "/images/defaultPicture.png"
-                                    }
-                                    alt={`${privateMessage.first} ${privateMessage.last}`}
-                                ></img>
-                            </figure>
-                            <p>
-                                {privateMessage.first} {privateMessage.last}
-                            </p>
-                            <p>{privateMessage.message}</p>
+                        <div
+                            className="oneMessage"
+                            key={privateMessage.message_id}
+                        >
+                            <section className="oneMessagePicture">
+                                <figure className="figureSmallSize">
+                                    <img
+                                        className="imgSmallSize"
+                                        src={
+                                            privateMessage.image_url ||
+                                            "/images/defaultPicture.png"
+                                        }
+                                        alt={`${privateMessage.first} ${privateMessage.last}`}
+                                    ></img>
+                                </figure>
+                            </section>
+                            <section className="oneMessageNameAndText">
+                                <p>
+                                    {privateMessage.first} {privateMessage.last}
+                                </p>
+                                <p>{privateMessage.message}</p>
+                            </section>
                         </div>
                     );
                 })}

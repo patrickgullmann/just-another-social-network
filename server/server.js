@@ -379,10 +379,10 @@ io.on("connection", async (socket) => {
 
     //setup for private messages
     onlineUsers[socket.id] = userId;
-    console.log(onlineUsers);
+    //console.log(onlineUsers);
     socket.on("disconnect", () => {
         delete onlineUsers[socket.id];
-        console.log(onlineUsers, "after one gone");
+        //console.log(onlineUsers, "after one gone");
     });
 
     //get last ten messages and send them to socket.js (there to then to redux)
@@ -414,9 +414,9 @@ io.on("connection", async (socket) => {
     });
 
     socket.on("send-private-message", async (data) => {
-        console.log(userId);
-        console.log(data.otherUserId);
-        console.log(data.privateMessageText);
+        // console.log(userId);
+        // console.log(data.otherUserId);
+        // console.log(data.privateMessageText);
 
         //add message to db
         const { rows } = await db.addPrivateMessage(
@@ -424,7 +424,7 @@ io.on("connection", async (socket) => {
             data.otherUserId,
             data.privateMessageText
         );
-        //get needed info for INSERTED massage from join userers/messages
+        //get info for INSERTED massage from join users/messages
         const { rows: privateMessageInfo } =
             await db.getMyLastPrivateMessageInfo(rows[0].id);
         console.log(privateMessageInfo[0]);
@@ -440,9 +440,6 @@ io.on("connection", async (socket) => {
                     privateMessageInfo[0]
                 );
             }
-
-            console.log("looop", prop);
-            console.log("loop", onlineUsers[prop]);
         }
     });
 });

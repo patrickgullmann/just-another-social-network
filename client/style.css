@@ -10,7 +10,7 @@ body {
 header {
     background-color: rgb(202, 202, 202);
     display: grid;
-    grid-template-columns: 200px 1fr 200px;
+    grid-template-columns: 150px 1fr 150px;
     padding: 10px;
     border-bottom: 1px solid rgb(78, 77, 77);
 }
@@ -19,7 +19,17 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 50px;
+    gap: 25px;
+}
+
+.link {
+    text-decoration: none;
+    color: black;
+    letter-spacing: 2px;
+}
+.link:hover {
+    text-transform: uppercase;
+    cursor: pointer;
 }
 
 .logoInHeader {
@@ -73,15 +83,53 @@ nav {
     filter: brightness(70%);
 }
 
+.containerOtherProfile {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    padding: 10px;
+}
+
 .chatWindowContainer {
     height: 350px;
-    width: 700px;
+    width: 500px;
     border: 1px solid rgba(0, 0, 0, 0.6);
     overflow: scroll;
     display: flex;
     /* change in server.js messages.reverse() to make the trick 
     flex-direction: column-reverse; */
     flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.oneMessage {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    padding: 10px;
+}
+
+.oneMessageNameAndText {
+    align-self: center;
+}
+
+.oneMessagePicture {
+    align-self: center;
+}
+
+textarea {
+    height: 80px;
+    width: 500px;
+}
+
+.containerFriendsOrWannabees {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    padding: 10px;
+}
+
+.containerSearchedUsers {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    padding: 10px;
 }
 
 /* --------------------------- Modal --------------- */

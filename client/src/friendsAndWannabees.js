@@ -65,57 +65,61 @@ export default function FriendsAndWannabees() {
 
     return (
         <section>
-            <h1>Friends</h1>
-            {friends.map((friend) => {
-                return (
-                    <div key={friend.id}>
-                        <Link to={`/user/${friend.id}`}>
-                            <figure className="figureMediumSize">
-                                <img
-                                    className="imgMediumSize"
-                                    src={
-                                        friend.image_url ||
-                                        "/images/defaultPicture.png"
-                                    }
-                                    alt={`${friend.first} ${friend.last}`}
-                                ></img>
-                            </figure>
-                        </Link>
-                        <p>
-                            {friend.first} {friend.last}
-                        </p>
-                        <button onClick={() => handleUnfriend(friend.id)}>
-                            Unfriend
-                        </button>
-                    </div>
-                );
-            })}
+            <h1> -- Friends___________________</h1>
+            <section className="containerFriendsOrWannabees">
+                {friends.map((friend) => {
+                    return (
+                        <div key={friend.id}>
+                            <Link to={`/user/${friend.id}`}>
+                                <figure className="figureMediumSize">
+                                    <img
+                                        className="imgMediumSize"
+                                        src={
+                                            friend.image_url ||
+                                            "/images/defaultPicture.png"
+                                        }
+                                        alt={`${friend.first} ${friend.last}`}
+                                    ></img>
+                                </figure>
+                            </Link>
+                            <p>
+                                {friend.first} {friend.last}
+                            </p>
+                            <button onClick={() => handleUnfriend(friend.id)}>
+                                Unfriend
+                            </button>
+                        </div>
+                    );
+                })}
+            </section>
 
-            <h1>Wannabees</h1>
-            {wannabees.map((wannabee) => {
-                return (
-                    <div key={wannabee.id}>
-                        <Link to={`/user/${wannabee.id}`}>
-                            <figure className="figureMediumSize">
-                                <img
-                                    className="imgMediumSize"
-                                    src={
-                                        wannabee.image_url ||
-                                        "/images/defaultPicture.png"
-                                    }
-                                    alt={`${wannabee.first} ${wannabee.last}`}
-                                ></img>
-                            </figure>
-                        </Link>
-                        <p>
-                            {wannabee.first} {wannabee.last}
-                        </p>
-                        <button onClick={() => handleAccept(wannabee.id)}>
-                            Accept Friend Request
-                        </button>
-                    </div>
-                );
-            })}
+            <h1> -- Wannabees________________</h1>
+            <section className="containerFriendsOrWannabees">
+                {wannabees.map((wannabee) => {
+                    return (
+                        <div key={wannabee.id}>
+                            <Link to={`/user/${wannabee.id}`}>
+                                <figure className="figureMediumSize">
+                                    <img
+                                        className="imgMediumSize"
+                                        src={
+                                            wannabee.image_url ||
+                                            "/images/defaultPicture.png"
+                                        }
+                                        alt={`${wannabee.first} ${wannabee.last}`}
+                                    ></img>
+                                </figure>
+                            </Link>
+                            <p>
+                                {wannabee.first} {wannabee.last}
+                            </p>
+                            <button onClick={() => handleAccept(wannabee.id)}>
+                                Accept Friend Request
+                            </button>
+                        </div>
+                    );
+                })}
+            </section>
         </section>
     );
 }

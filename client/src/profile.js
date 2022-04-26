@@ -4,9 +4,8 @@ import BioEditor from "./bioEditor";
 export default function Profile(props) {
     return (
         <div className="container">
-            <h1>This is MY Profile Component of </h1>
             <h1>
-                {props.first} {props.last}
+                {props.first} {props.last} - my Profile
             </h1>
             <figure className="figureBigSize">
                 <ProfilePicture
