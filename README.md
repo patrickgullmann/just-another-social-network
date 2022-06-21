@@ -1,4 +1,4 @@
-# just-another-social-network
+## Overview
 
 <img src="/client/public/images/demo.png">
 
