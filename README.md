@@ -2,7 +2,7 @@
 
 ## Impressions
 
-<img src="public/images/demo.png">
+<img src="/client/public/images/demo.png">
 
 ## Overview
 
