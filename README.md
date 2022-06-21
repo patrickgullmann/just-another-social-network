@@ -1,10 +1,6 @@
 # just-another-social-network
 
-## Impressions
-
 <img src="/client/public/images/demo.png">
-
-## Overview
 
 Just Another Social Network is a web app comparable to Facebook or LinkedIn with instantaneous global and private chat functions.
 
